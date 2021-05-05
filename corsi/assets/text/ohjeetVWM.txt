@@ -1,0 +1,8 @@
+Tässä tehtävässä musta esine
+näyttää sarjan liikkumalla
+ruudukossa. Tehtävänäsi on
+muistaa sarja, ja toistaa se
+painamalla ruutuja.
+
+Siirry harjoitteluun painamalla
+alla olevaa näppäintä.
