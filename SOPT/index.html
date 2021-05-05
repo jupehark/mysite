@@ -1,0 +1,598 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>Self Ordered Task</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.54.0/dist/phaser.min.js"></script> 
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+/* src="phaser-3.54.0/dist/phaser.min.js">*/
+
+class Scene1 extends Phaser.Scene
+{
+constructor ()
+{
+    super('GameScene1');
+    this.vaiheenKuvat=[[[0,1,2,3],[0,1,2,3]], //vaihe 0, ensimmainen ja toinen kierros
+                       [[0,1,2,3,4,5],[0,1,2,3,4,5]], //vaihe 1, ensimmainen ja toinen kierros
+                    [[0,1,2,3,4,5,6,7],[0,1,2,3,4,5,6,7]], //vaihe 2, ensimmainen ja toinen kierros
+                [[0,1,2,3,4,5,6,7,8,9],[0,1,2,3,4,5,6,7,8,9]],
+                [[0,1,2,3,4,5,6,7,8,9,10,11],[0,1,2,3,4,5,6,7,8,9,10,11]]];  //vaihe 4, ensimmainen ja toinen kierros
+    this.valitutKuvat=[[[],[]],
+                       [[],[]],
+                    [[],[]],
+                [[],[]],
+                [[],[]]]; //pelaajan kussakin vaiheesa tekemat valinnat
+    this.kaikkiKuvat=[[[],[]],
+                     [[],[]],
+                    [[],[]],
+                [[],[]],
+                [[],[]]]; //tallennetaan kaikki ohjelman kayttamat kuvat taulukkoon, jotta niita voidaan tarvittaessa kutsua helposti
+    this.vaihe=0;
+    this.uusinta=0;
+    this.pisinSpan=3;
+    this.koordinaatitX=[[[100,400,100,400],[100,400,100,400]],
+                        [[100,300,500,100,300,500],[100,300,500,100,300,500]],
+                    [[100,200,300,400,500,100,300,500],[100,200,300,400,500,100,300,500]],
+                [[70,100,100,240,300,300,410,500,500,580],[70,100,100,240,300,300,410,500,500,580]],
+                [[80,240,400,560,80,240,400,560,80,240,400,560],[80,240,400,560,80,240,400,560,80,240,400,560]]];
+    this.koordinaatitY=[[[160,160,500,500],[160,160,500,500]],
+                       [[160,160,160,500,500,500],[160,160,160,500,500,500]],
+                       [[160,330,160,330,160,500,500,500],[160,330,160,330,160,500,500,500]],
+                       [[330,160,500,330,160,500,330,160,500,330],[330,160,500,330,160,500,330,160,500,330]],
+                       [[160,160,160,160,320,320,320,320,480,480,480,480],[160,160,160,160,320,320,320,320,480,480,480,480]]];
+    this.parillinen=0;
+    this.valintoja=0;
+    this.virheita=0;
+    this.virhePelinAikana=false;
+                        //ensimmainen ja toinen kierros
+    this.vaiheenVirheet=[[0,0],  //virheet vaiheessa 0
+                        [0,0],   //virheet vaiheessa 1
+                        [0,0],   //virheet vaiheessa 2
+                        [0,0],
+                    [0,0]];  //virheet vaiheessa 4
+    this.loadingCurrently=false;
+}
+
+preload()
+{
+    this.load.image('penguin','assets/vaihe1/penguin.png'); 
+    this.load.image('car','assets/vaihe1/car.png');  
+    this.load.image('broom','assets/vaihe1/broom.png');  
+    this.load.image('tie','assets/vaihe1/tie.png');  
+
+    this.load.image('shark','assets/vaihe1/shark.png'); 
+    this.load.image('canoe','assets/vaihe1/canoe.png');  
+    this.load.image('plate','assets/vaihe1/plate.png');  
+    this.load.image('leaf','assets/vaihe1/leaf.png');  
+
+    
+    this.load.image('egg','assets/vaihe2/egg.png'); 
+    this.load.image('wolf','assets/vaihe2/wolf.png');  
+    this.load.image('clock','assets/vaihe2/clock.png');  
+    this.load.image('desert','assets/vaihe2/desert.png');  
+    this.load.image('rocket','assets/vaihe2/rocket.png');  
+    this.load.image('pants','assets/vaihe2/pants.png');  
+
+    this.load.image('hamburger','assets/vaihe2/hamburger.png'); 
+    this.load.image('lizard','assets/vaihe2/lizard.png');  
+    this.load.image('bench','assets/vaihe2/bench.png');  
+    this.load.image('rain','assets/vaihe2/rain.png');  
+    this.load.image('tank','assets/vaihe2/tank.png');  
+    this.load.image('baby','assets/vaihe2/baby.png');  
+
+    
+    this.load.image('fire','assets/vaihe3/fire.png'); 
+    this.load.image('dress','assets/vaihe3/dress.png');  
+    this.load.image('snail','assets/vaihe3/snail.png');  
+    this.load.image('wheat','assets/vaihe3/wheat.png');  
+    this.load.image('cheese','assets/vaihe3/cheese.png');  
+    this.load.image('sailboat','assets/vaihe3/sailboat.png');  
+    this.load.image('bucket','assets/vaihe3/bucket.png');  
+    this.load.image('rock','assets/vaihe3/rock.png');
+    
+    this.load.image('firetruck','assets/vaihe3/firetruck.png'); 
+    this.load.image('slipper','assets/vaihe3/slipper.png');  
+    this.load.image('elephant','assets/vaihe3/elephant.png');  
+    this.load.image('fishtank','assets/vaihe3/fishtank.png');  
+    this.load.image('salt','assets/vaihe3/salt.png');  
+    this.load.image('spaghetti','assets/vaihe3/spaghetti.png');  
+    this.load.image('balloon','assets/vaihe3/balloon.png');  
+    this.load.image('king','assets/vaihe3/king.png');
+
+    
+    this.load.image('bat','assets/vaihe4/bat.png'); 
+    this.load.image('scarf','assets/vaihe4/scarf.png');  
+    this.load.image('jacket','assets/vaihe4/jacket.png');  
+    this.load.image('unicycle','assets/vaihe4/unicycle.png');  
+    this.load.image('priest','assets/vaihe4/priest.png');  
+    this.load.image('rose','assets/vaihe4/rose.png');  
+    this.load.image('volcano','assets/vaihe4/volcano.png');  
+    this.load.image('drum','assets/vaihe4/drum.png');
+    this.load.image('shovel','assets/vaihe4/shovel.png');  
+    this.load.image('bathtub','assets/vaihe4/bathtub.png');
+    
+    this.load.image('crab','assets/vaihe4/crab.png'); 
+    this.load.image('belt','assets/vaihe4/belt.png');  
+    this.load.image('log','assets/vaihe4/log.png');  
+    this.load.image('submarine','assets/vaihe4/submarine.png');  
+    this.load.image('nurse','assets/vaihe4/nurse.png');  
+    this.load.image('cactus','assets/vaihe4/cactus.png');  
+    this.load.image('rainbow','assets/vaihe4/rainbow.png');  
+    this.load.image('rollerskate','assets/vaihe4/rollerskate.png');
+    this.load.image('comb','assets/vaihe4/comb.png');  
+    this.load.image('popcorn','assets/vaihe4/popcorn.png');
+
+    
+    this.load.image('thumb','assets/vaihe5/thumb.png'); 
+    this.load.image('skeleton','assets/vaihe5/skeleton.png');  
+    this.load.image('fish','assets/vaihe5/fish.png');  
+    this.load.image('zebra','assets/vaihe5/zebra.png');  
+    this.load.image('window','assets/vaihe5/window.png');  
+    this.load.image('arrow','assets/vaihe5/arrow.png');  
+    this.load.image('shirt','assets/vaihe5/shirt.png');  
+    this.load.image('pear','assets/vaihe5/pear.png');
+    this.load.image('paper','assets/vaihe5/paper.png');  
+    this.load.image('curtains','assets/vaihe5/curtains.png');
+    this.load.image('stove','assets/vaihe5/stove.png');  
+    this.load.image('violin','assets/vaihe5/violin.png');
+
+    
+    this.load.image('toe','assets/vaihe5/toe.png'); 
+    this.load.image('hay','assets/vaihe5/hay.png');  
+    this.load.image('bird','assets/vaihe5/bird.png');  
+    this.load.image('whale','assets/vaihe5/whale.png');  
+    this.load.image('bricks','assets/vaihe5/bricks.png');  
+    this.load.image('backpack','assets/vaihe5/backpack.png');  
+    this.load.image('boat','assets/vaihe5/boat.png');  
+    this.load.image('strawberry','assets/vaihe5/strawberry.png');
+    this.load.image('trophy','assets/vaihe5/trophy.png');  
+    this.load.image('bag','assets/vaihe5/bag.png');
+    this.load.image('globe','assets/vaihe5/globe.png');  
+    this.load.image('gun','assets/vaihe5/gun.png');
+
+}
+
+
+
+create()
+{   
+    this.registry.set('valintoja',this.valintoja);
+    this.registry.set('virheita',this.virheita);
+    this.registry.set('vaihe',this.vaihe);
+    this.registry.set('uusinta',this.uusinta);
+    this.registry.set('pisinSpan',this.pisinSpan);
+    let muistutusTeksti=this.add.text(10,30,"Valitse kuva, jota et ole aiemmin valinnut!",{font: '32px Arial', fill: '#000000'});
+
+              //vaihe 0 uusinta 0
+    let sprite1 = this.add.image(-300,-300,'penguin').setScale(0.5).setInteractive();
+    sprite1.name=0;
+    this.kaikkiKuvat[0][0].push(sprite1);
+    let sprite2=this.add.image(-300,-300,'car').setScale(0.5).setInteractive();
+    sprite2.name=1;
+    this.kaikkiKuvat[0][0].push(sprite2);
+    let sprite3=this.add.image(-300,-300,'broom').setScale(0.5).setInteractive();
+    sprite3.name=2;
+    this.kaikkiKuvat[0][0].push(sprite3);
+    let sprite4=this.add.image(-300,-300,'tie').setScale(0.5).setInteractive();
+    sprite4.name=3;
+    this.kaikkiKuvat[0][0].push(sprite4);
+           //vaihe 0 uusinta 1
+    this.kaikkiKuvat[0][1]=[];
+    let sprite5 = this.add.image(-300,-300,'shark').setScale(0.5).setInteractive();
+    sprite5.name=4;
+    this.kaikkiKuvat[0][1].push(sprite5);
+    let sprite6=this.add.image(-300,-300,'canoe').setScale(0.5).setInteractive();
+    sprite6.name=5;
+    this.kaikkiKuvat[0][1].push(sprite6);
+    let sprite7=this.add.image(-300,-300,'plate').setScale(0.5).setInteractive();
+    sprite7.name=6;
+    this.kaikkiKuvat[0][1].push(sprite7);
+    let sprite8=this.add.image(-300,3-300,'leaf').setScale(0.5).setInteractive();
+    sprite8.name=7;
+    this.kaikkiKuvat[0][1].push(sprite8);
+
+    this.kaikkiKuvat[0][0]=this.shuffle(this.kaikkiKuvat[0][0]);
+    this.siirraKuvat();
+
+    
+    let itemArray2=[['egg','wolf','clock','desert','rocket','pants'],
+                 ['hamburger','lizard','bench','rain','tank','baby']];
+    let indx=8;
+    
+    for (let i=0;i<itemArray2.length;i++)
+    {
+        for (let j=0;j<itemArray2[i].length;j++)
+        {
+            let tmp = this.add.image(-300,-300,itemArray2[i][j]).setScale(0.5).setInteractive();
+            tmp.name=indx;
+            this.kaikkiKuvat[1][i].push(tmp);
+            indx++;
+        }
+    }
+    
+
+    let itemArray=[['fire','dress','snail','wheat','cheese','sailboat','bucket','rock'],
+                 ['firetruck','slipper','bench','elephant','fishtank','salt','spaghetti','balloon','king']];
+    
+    for (let i=0;i<itemArray.length;i++)
+    {
+        for (let j=0;j<itemArray[i].length;j++)
+        {
+            let tmp = this.add.image(-300,-300,itemArray[i][j]).setScale(0.45).setInteractive();
+            tmp.name=indx;
+            this.kaikkiKuvat[2][i].push(tmp);
+            indx++;
+        }
+    }
+
+
+    let itemArray3=[['bat','scarf','jacket','unicycle','priest','rose','volcano','drum','shovel','bathtub'],
+                 ['crab','belt','log','submarine','nurse','cactus','rainbow','rollerskate','comb','popcorn']];
+    
+    for (let i=0;i<itemArray3.length;i++)
+    {
+        for (let j=0;j<itemArray3[i].length;j++)
+        {
+            let tmp = this.add.image(-300,-300,itemArray3[i][j]).setScale(0.45).setInteractive();
+            tmp.name=indx;
+            this.kaikkiKuvat[3][i].push(tmp);
+            indx++;
+        }
+    }
+
+    
+    let itemArray4=[['thumb','skeleton','fish','zebra','window','arrow','shirt','pear','paper','curtains','stove','violin'],
+                 ['toe','hay','bird','whale','bricks','backpack','boat','strawberry','trophy','bag','globe','gun']];
+    
+    for (let i=0;i<itemArray4.length;i++)
+    {
+        for (let j=0;j<itemArray4[i].length;j++)
+        {
+            let tmp = this.add.image(-300,-300,itemArray4[i][j]).setScale(0.45).setInteractive();
+            tmp.name=indx;
+            this.kaikkiKuvat[4][i].push(tmp);
+            indx++;
+        }
+    }
+
+    this.input.on('gameobjectup', this.clickHandler, this);
+    this.cameras.main.fadeIn(1000,128,128,128);
+    
+}
+
+fadeInandOut()
+{
+    this.loadingCurrently=true;
+    this.cameras.main.fadeOut(1000);
+    this.siirraKuvat();
+    this.time.delayedCall(400,()=>{
+    this.loadingCurrently=false;})
+    this.cameras.main.fadeIn(1000);
+}
+
+vaiheTransitio(vaihe,uusinta)
+{
+    this.loadingCurrently=true;
+    this.cameras.main.fadeOut(1000,0,230,200);
+    this.time.delayedCall(2000,()=>{
+        this.siirraKuvat();
+        this.siirraVanhatKuvat(vaihe,uusinta);
+        this.cameras.main.fadeIn(1000,0,230,200);
+        this.loadingCurrently=false;
+    });
+}
+
+siirraKuvat()
+{
+    for (let i=0;i<this.vaiheenKuvat[this.vaihe][this.uusinta].length;i++)
+    {
+        let tmp=this.vaiheenKuvat[this.vaihe][this.uusinta][i];
+        this.kaikkiKuvat[this.vaihe][this.uusinta][tmp].setPosition(this.koordinaatitX[this.vaihe][this.parillinen][i],this.koordinaatitY[this.vaihe][this.parillinen][i]);
+    }
+    this.parillinen++;
+    if (this.parillinen>1)this.parillinen=0;
+}
+
+siirraVanhatKuvat(vaihe,uusinta)
+{
+    for (let i=0;i<this.vaiheenKuvat[vaihe][uusinta].length;i++)
+    {
+        let tmp=this.vaiheenKuvat[vaihe][uusinta][i];
+        this.kaikkiKuvat[vaihe][uusinta][tmp].setPosition(-300,-300);
+
+    }
+}
+
+
+clickHandler(pointer, box)
+{
+    if (this.loadingCurrently)return;
+
+    let vaihePaattyi=false;
+    let vaihe=this.vaihe;
+    let uusinta=this.uusinta;
+    this.valintoja++;
+    this.registry.set('valintoja',this.valintoja);
+    let onkoUusi=true;
+    for (let i=0;i<this.valitutKuvat[this.vaihe][this.uusinta].length;i++)
+    {
+        if (this.valitutKuvat[this.vaihe][this.uusinta][i]==box.name)onkoUusi=false;
+    }
+    if (!onkoUusi)
+    {
+        this.virheita++;
+        this.virhePelinAikana=true;
+        this.vaiheenVirheet[this.vaihe][this.uusinta]++;
+        this.registry.set('vaiheenVirheet',this.vaiheenVirheet);
+        this.registry.set('virheita',this.virheita);
+    }
+    this.valitutKuvat[this.vaihe][this.uusinta].push(box.name);
+    if (this.valitutKuvat[this.vaihe][this.uusinta].length==4+this.vaihe*2) //kun on valittu vaiheen vaatima maara kuvia
+    {
+        vaihePaattyi=true;
+        if (this.uusinta==1 && this.virhePelinAikana==true)//peli paattyy
+                {
+                    this.cameras.main.fadeOut(1000,128,128,128);
+                    this.time.delayedCall(2000,()=>{
+                        this.scene.start('LoppuScene');
+                    });
+                    return;
+                }
+        if (this.virhePelinAikana==false)//siirrytaan seuravaan vaiheeseen paivitetaan uusi spani
+        {
+            this.pisinSpan=4+this.vaihe*2;
+            this.vaihe++;
+            this.uusinta=0;
+            this.registry.set('pisinSpan',this.pisinSpan);
+        }
+        
+        if (this.uusinta==0 && this.virhePelinAikana==true)//siirrytaan uusintaan
+        {
+            this.uusinta=1;
+            this.virhePelinAikana=false;
+        }
+
+        if (this.vaihe<4)
+        {
+            this.registry.set('vaihe',this.vaihe);
+            this.registry.set('uusinta',this.uusinta);
+        }
+    }
+    if (this.vaihe>4)
+    {
+        this.cameras.main.fadeOut(1000,128,128,128);
+        
+        this.time.delayedCall(2000,()=>{
+            this.scene.start('LoppuScene');
+        });
+        return; //TODO pelin loppu, kirjoita tulokset tiedostoon
+    }
+
+    //console.log(this.valitutKuvat[this.vaihe][this.uusinta]);
+    this.vaiheenKuvat[this.vaihe][this.uusinta]=this.shuffle(this.vaiheenKuvat[this.vaihe][this.uusinta]);
+    //this.siirraKuvat();
+    if (vaihePaattyi)this.vaiheTransitio(vaihe,uusinta);
+    else this.fadeInandOut();
+
+}
+
+shuffle(taulukko)
+{
+    for (let i=0;i<taulukko.length;i++)
+    {
+        let tmp=taulukko[i];
+        let rn = Phaser.Math.Between(0,taulukko.length-1);
+        taulukko[i]=taulukko[rn];
+        taulukko[rn]=tmp;
+    }
+    return taulukko;
+}
+
+}
+
+class SceneAlku extends Phaser.Scene
+{
+    constructor()
+    {
+        super({key: 'AlkuScene'});
+        this.ohjeetText;
+        this.harjoitteluKuvat=[];
+        this.harjoitteluPositiotX=[200,400,600];
+        this.harjoitteluPositiotY=[300,300,300];
+        this.valitutHarjoitusKuvat=[];
+        this.harjoitteluText;
+        this.harjoitteluValintoja=0;
+        this.startButton;
+        //this.pelaajanNimi;
+    }
+
+    preload()
+    {
+        this.load.image('aloita','assets/startbutton.png');
+        this.load.image('ghost','assets/harjoittelu/ghost.png');
+        this.load.image('teapot','assets/harjoittelu/teapot.png');
+        this.load.image('tractor','assets/harjoittelu/tractor.png');
+    }
+
+    create()
+    {
+        this.ohjeetText=this.add.text(10,10,"Tässä tehtävässä tarkoituksena on valita kaikki näytös- \n"+
+                                         "sä esitetyt kuvat valitsematta samaa kuvaa useammin \n"+
+                                         "kuin kerran. Kuvan valinnan jälkeen kuvien sijainnit \n"+
+                                         "näytöllä vaihtuvat. Kuvien valitsemisjärjestys on vapaa.",{font: '32px Arial', fill: '#000000'});
+        this.startButton=this.add.image(-340,-340,'aloita').setInteractive();
+        this.startButton.name='aloita';
+        this.harjoitteluText=this.add.text(70,400,"Valitse kuva",{font: '32px Arial', fill: '#000000'});
+
+        let spriteA=this.add.image(200,300,'ghost').setScale(0.5).setInteractive();
+        spriteA.name=301;
+        this.harjoitteluKuvat.push(spriteA);
+        let spriteB=this.add.image(400,300,'teapot').setScale(0.5).setInteractive();
+        spriteB.name=302;
+        this.harjoitteluKuvat.push(spriteB);
+        let spriteC=this.add.image(600,300,'tractor').setScale(0.5).setInteractive();
+        spriteC.name=303;
+        this.harjoitteluKuvat.push(spriteC);
+        this.input.on('gameobjectup', this.clickHandler2, this);
+    }
+
+    fakeShuffle(taulukko)
+    {
+    for (let i=0;i<taulukko.length;i++)
+    {
+        let tmp=taulukko[i];
+        let rn = Phaser.Math.Between(0,taulukko.length-1);
+        taulukko[i]=taulukko[rn];
+        taulukko[rn]=tmp;
+    }
+    return taulukko;
+    }
+
+    clickHandler2(pointer,box)
+    {
+        let nimi=box.name;
+        let onkoUusi=true;
+
+        if (nimi=='aloita')
+        {
+            this.cameras.main.fadeOut(1000,128,128,128);
+            //this.registry.set('pelaajanNimi',this.pelaajanNimi);
+            this.scene.start('GameScene1');
+        }
+        this.harjoitteluValintoja++;
+
+        for (let i=0;i<this.valitutHarjoitusKuvat.length;i++)
+        {
+            if (nimi==this.valitutHarjoitusKuvat[i])
+            {
+                onkoUusi=false;
+                this.harjoitteluText.setText("Oops! Valitsit saman kuvan uudestaan.");
+                this.harjoitteluText.setStyle({ font: '32px Arial', fill: '#FF0000' }) ;
+            }
+        }
+
+        if (onkoUusi)
+        {
+            this.valitutHarjoitusKuvat.push(nimi);
+            this.harjoitteluText.setText("Valitsit uuden kuvan!");
+            this.harjoitteluText.setStyle({ font: '32px Arial', fill: '#125CF0' }) ;
+        }
+    
+        if (this.harjoitteluValintoja==3)
+        {
+            if (this.valitutHarjoitusKuvat.length==3)
+            {
+                this.startButton.setPosition(400,530);
+                this.harjoitteluText.setText("Onnistuit valitsemaan kaikki kuvat.\nPaina nappia tehtävän aloittamiseksi.");
+                this.harjoitteluText.setStyle({ font: '28px Arial', fill: '#125CF0' }) ;
+            }
+            else
+            {
+                 this.harjoitteluText.setStyle({ font: '28px Arial', fill: '#FF0000' });
+                 this.harjoitteluText.setText("Valitsit " + this.valitutHarjoitusKuvat.length + " eri kuvaa. Harjoitus alkaa alusta.\nValitse kuva.");
+            }
+            this.harjoitteluValintoja=0;
+            this.valitutHarjoitusKuvat=[];
+        }
+        this.harjoitteluKuvat=this.fakeShuffle(this.harjoitteluKuvat);
+        this.fakefadeInandOut();
+    }
+
+fakefadeInandOut()
+{
+    this.loadingCurrently=true;
+    this.cameras.main.fadeOut(1000);
+    this.fakeSiirraKuvat();
+    this.time.delayedCall(400,()=>{
+    this.loadingCurrently=false;})
+    this.cameras.main.fadeIn(1000);
+}
+
+    fakeSiirraKuvat()
+    {
+        for (let i=0; i<this.harjoitteluKuvat.length;i++)this.harjoitteluKuvat[i].setPosition(this.harjoitteluPositiotX[i],this.harjoitteluPositiotY[i]);
+    }
+}
+
+class Sceneloppu extends Phaser.Scene
+{
+    constructor()
+    {
+        super({key: 'LoppuScene'});
+        this.textField;
+    }
+
+    preload()
+    {
+    }
+
+    create()
+    {
+        let span=this.registry.get('pisinSpan');
+        this.textField=this.add.text(100,100,"Tehtävä loppui.",{font: '32px Arial', fill: '#000000'});
+        this.add.text(100,200,"Sait tulokseksi: " + span,{font: '32px Arial', fill: '#000000'});
+        this.add.text(100,300,"Keskiarvo perusterveillä aikuisilla : 7.14",{font: '24px Arial', fill: '#000000'})
+        this.cameras.main.fadeIn(1000,128,128,128);
+    }
+}
+
+
+class SceneCalcs extends Phaser.Scene
+{
+    constructor()
+    {
+        super({key: 'UIScene',active: true});
+        this.valintaText;
+        this.virheText;
+        this.debugText;
+        this.uusiVaiheText;
+    }
+
+    create()
+    {
+        this.debugText=this.add.text(900,250,'Debug',{font: '32px Arial',fill: '#000000'});
+        //  Our Text object to display the Score
+        this.valintaText=this.add.text(900, 300, 'Valintoja: 0', { font: '32px Arial', fill: '#000000' });
+        this.virheText=this.add.text(900, 350, 'Virheita: 0', { font: '32px Arial', fill: '#000000' });
+        this.uusiVaiheText=this.add.text(-300, -300, 'Uudet kuvat', { font: '32px Arial', fill: '#000000' });
+        //  Check the Registry and hit our callback every time the 'score' value is updated
+        this.registry.events.on('changedata',this.updateData,this);
+    }
+
+    updateData(parent, key, data)
+    {
+        if (key=='valintoja')this.valintaText.setText('Valintoja: '+data);
+        if (key=='virheita')this.virheText.setText('Virheita: ' + data);
+        if (key=='vaihe' || key=='uusinta')
+        {
+            this.time.delayedCall(1000,()=>{this.uusiVaiheText.setPosition(300,300);});
+            this.time.delayedCall(2000,()=>{this.uusiVaiheText.setPosition(-300,-300);});            
+        }
+    }
+}
+
+let config = {
+type: Phaser.AUTO,
+width: 800,
+height: 600,
+backgroundColor: '#d3d3d3',
+parent: 'phaser-example',
+scene: [ SceneAlku, Scene1 , SceneCalcs, Sceneloppu]
+};
+
+let game = new Phaser.Game(config);
+
+
+
+</script>
+
+</body>
+</html>

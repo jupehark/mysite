@@ -1,0 +1,12 @@
+Tässä tehtävässä käytetään 16-paikkaista
+ruudukkoa. Aloitettuasi tehtävän ruudu-
+kossa näytetään sarja koordinaatteja.
+Tehtävänäsi on muistaa ja toistaa tämä
+sarja samassa järjestyksessä.
+
+Ennen varsinaista tehtävän suorittamista
+sinulla on mahdollisuus harjoitella,
+varmistaaksesi että ymmärrät tehtävän.
+
+
+Paina seuraava edetäksesi.

@@ -1,0 +1,4 @@
+Tässä tehtävässä tarkoituksena on valita kaikki näytössä
+esitetyt kuvat valitsematta samaa kuvaa useammin kuin 
+kerran. Kuvan valinnan jälkeen kuvien sijainnit näytöllä
+vaihtuvat. Kuvien valitsemisjärjestys on vapaa.
