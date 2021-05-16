@@ -1,7 +1,9 @@
 Tässä tehtävässä ruudussa näy-
 tetään sarja lukuja yksi kerral-
-laan. Tehtävänäsi on muistaa
-sarja, ja toistaa se painamalla
+laan. Sarjan viimeinen luku näy-
+tetään punaisella fontilla.
+Tehtävänäsi on muistaa sarja,
+ja toistaa se painamalla
 ruudussa olevia näppäimiä.
 
 
