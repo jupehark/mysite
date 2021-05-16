@@ -6,6 +6,5 @@ Tehtävänäsi on muistaa sarja,
 ja toistaa se painamalla
 ruudussa olevia näppäimiä.
 
-
 Siirry harjoitteluun painamalla
 alla olevaa näppäintä.
