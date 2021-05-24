@@ -1,0 +1,11 @@
+Tässä tehtävässä tarkoituksena on valita kaikki näytössä
+esitetyt kuvat valitsematta samaa kuvaa useammin kuin
+kerran. Kuvan valinnan jälkeen kuvien sijainnit näytöllä
+vaihtuvat. Kuvien valitsemisjärjestys on vapaa. Kuvia
+on tehtävän alussa 4 kappalette, ja niiden määrä kasvaa
+2:lla tehtävässä onnistuessasi. Kuvien enimmäis määrä on
+12. Tehtävä päättyy, jos epäonnistut 2 kertaa peräk-
+käin samalla kuvamäärällä tai saavutat maksimin.
+
+Ennen varsinaisen tehtävän aloittamista sinun tulee läpäistä
+harjoitus 2 kertaa.

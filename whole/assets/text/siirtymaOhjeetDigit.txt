@@ -1,0 +1,10 @@
+Tehtävän 2 toisessa osiossa tehtävänäsi on toistaa näytetty
+lukusarja käänteisessä järjestyksessä. Eli valitset viimeisenä
+näytetyn luvun ensimmäisenä.
+
+Ennen varsinaisen tehtävän aloittamista sinun tulee läpäistä
+harjoitus kaksi kertaa. Sarjan pituus muuttuu samalla tavalla
+kuin osiossa 1. Osio päättyy, kun olet tehnyt virheen 3 kertaa
+tai saavutat sarjan maksimi pituuden 9.
+
+Siirry harjoitteluun painamalla seuraava-näppäintä.

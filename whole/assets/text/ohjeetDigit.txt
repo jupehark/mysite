@@ -1,0 +1,14 @@
+Tehtävä 2 koostuu kahdesta osiosta. Ensimmäisessä osiossa ruu-
+dulla näytetään sarja lukuja yksi kerrallaan. Tehtävänäsi on
+muistaa sarja, ja toistaa se samassa järjestyksessä painamalla
+vastaavilla numeroilla merkittyjä ruutuja. Sarjan päättyessä
+viimeinen luku kirjoitetaan punaisella.
+
+Ennen varsinaisen tehtävän aloittamista sinun tulee läpäistä
+harjoitus kaksi kertaa. Varsinaisessa tehtävässä muistettavan
+sarjan pituus kasvaa aina yhdellä, jos onnistut toistamaan sar-
+jan oikein. Vastaavasti sarjan pityys lyhenee, jos vastaat vää-
+rin. Osio päättyy, kun olet tehnyt 3 virhettä tai saavutat sar-
+jan maksimi pituuden 9.
+
+Siirry harjoitteluun painamalla seuraava-näppäintä.

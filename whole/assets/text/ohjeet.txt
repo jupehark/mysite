@@ -1,0 +1,9 @@
+Tässä tehtävässä tarkoituksena on valita kaikki näytössä
+esitetyt kuvat valitsematta samaa kuvaa useammin kuin 
+kerran. Kuvan valinnan jälkeen kuvien sijainnit näytöllä
+vaihtuvat. Kuvien valitsemisjärjestys on vapaa.
+
+Tässä tehtävässä tarkoituksena on valita kaikki näytös-
+sä esitetyt kuvat valitsematta samaa kuvaa useammin
+kuin kerran. Kuvan valinnan jälkeen kuvien sijainnit
+näytöllä vaihtuvat. Kuvien valitsemisjärjestys on vapaa.
