@@ -73,9 +73,9 @@ input[type=submit]:hover {
       <div id="text" class="text">
 	      <h1>Ohjeita</h1>
 	      <p>
-		      Kyselylomake on tehtävien alapuolella, ja siihen vastataan tehtävien
+		      Linkki kyselylomakeeseen on tehtävien alapuolella, ja siihen vastataan tehtävien
 		      suorittamisen jälkeen. Tehtäviä tehdessäsi varmista, että näet koko pelialueen
-		      kerralla.
+		      kerralla. Tehtävien tulokset ilmoitetaan kyselylomakkeeseen.
               </p>
 	      <p>
 		      Tehtäviä ohjataan joko hiirellä tai kosketusnäytöllä painamalla pelialueella olevia kohteita.
@@ -91,37 +91,14 @@ input[type=submit]:hover {
   </div>
   <div id="form" class="text">
 	  <h3>Kysely</h3>
-<form name="working memory" method="POST" data-netlify="true">
-	<p><label for="sex">Sukupuoli:</label>
-	<select id="sex" name="gender[]" >
-            <option value="mies">Mies</option>            
-            <option value="nainen">Nainen</option>
-    </select></p>
-      <p><label for="old">Ikä:</label>
-	  <input id="old" type="number" name="age"></p>
-    
-	<p><label for="schooling">Valitse korkein koulutusaste, jota olet opiskelemassa tai, jonka olet suorittanut aiemmin.</label>
-	<select id="schooling" name="education[]" >
-            <option value="1">Peruskoulun ala-aste</option>            
-            <option value="2">Peruskoulun ylä-aste</option>
-            <option value="3">Lukio, ylioppilas tai ammatillinen tutkinto</option>            
-            <option value="4">Korkekoulututkinto</option>     
-            <option value="5">Lisensiaatin tai tohtorin tutkinto</option>
-    </select></p>
-	
-	<p><label for="PlayingGames">Kuinka monta tuntia pelaat videopelejä keskimäärin viikossa?</label>
-      <input id="PlayingGames" type="number" name="Games"></p>
-	<p><label for="PlayingFPS">Kuinka monta tuntia pelaat ammuntapelejä keskimäärin viikossa? (Esim. Call of Duty, Halo, Splatoon)</label>
-      <input id="PlayingFPS" type="number" name="FPS"></p>
-	<p><label for="PlayingPuzzle">Kuinka monta tuntia pelaat pulmapelejä keskimäärin viikossa? (Esim. Pasianssi, Tetris, Angry Birds)</label>
-      <input id="PlayingPuzzle" type="number" name="Puzzle"></p>
+	  <p>Kysely avautuu oletuksena uudelle välilehdelle, jolloin voit katsoa tuloksesi selaimen välilehteä kyselyä täyttäessäsi.</p>
+	  <p>Jos tämä sivu ei avautunut automaattisesti uudelle välisivulle sinun kannattaa kirjoittaa tuloksesi muistiin ennen kyselyyn siirtymistä.</p>
+	  <p><a href="https://link.webropolsurveys.com/S/0E152234BB29EC1B" target="_blank" rel="noopener noreferrer">Linkki kyselyyn.pdf</p>
 	<input id="lohkotehtava" name="lohkoForward" type="hidden">
 	<input id="lohkotakaperin" name="lohkoBack" type="hidden">
 	<input id="digittehtava" name="DigitForward" type="hidden">
 	<input id="digittakaperin" name="DigitBack" type="hidden">
 	<input id="soptTehtava" name="SOPT" type="hidden">
-<input type="submit" value="Lähetä">
-	<p> </p>
 </div>
 </form>
 </body>
